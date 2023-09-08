@@ -1,19 +1,23 @@
+
 .green-yellow-crayola {
-  background-color: #F9EA9A;
+  background-color: #EFC3E6;
 }
 
-.coffee {
-  background-color: #684E32;
+.inicio {
+  background-color: #F0E6EF;
+  height: 100%;
 }
 
-.pullman-brown-ups-brown {
-  background-color: #5D3A00;
+.titulo {
+  background-color: #9C89B8;
+  border-radius: 40px;
+  margin: 5px;
 }
 
 .mango-tango {
-  background-color: #F98948;
+  background-color: #B8BEDD;
 }
 
 .olive {
-  background-color: #9B8816;
+  background-color: #F0A6CA;
 }

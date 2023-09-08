@@ -1,9 +1,10 @@
-<div class="coffee">
-  <h2 class="text-center display-4 pullman-brown-ups-brown">
+<div class="inicio">
+  <h2 class="text-center display-4 titulo">
     <img class="logo" src="../../assets/deliver.png" alt="" width="150" height="150">
     DeliverEat
-    <small class="text-muted">{{titulo}}</small>
   </h2>
+  <h3 class="text-center display-8 subtitulo"> Realizar pedido de lo que sea </h3>
+ 
 
   <!-- Registro de un Pedido de lo que Sea -->
   <form name='formPedido' [formGroup]='formPedido' class="coffee">
@@ -70,7 +71,7 @@
         <legend class="display-6">Dirección comercio</legend>
         <!--Campos Calle nombre y altura de comercio-->
         <div class="row form-group my-3">
-          <label class="col-form-label col-sm-1" for="calleNombreComercio">
+          <label class="col-form-label col-sm-2" for="calleNombreComercio">
             Calle y numero <span class="text-danger">*</span>
           </label>
 
@@ -143,7 +144,7 @@
         <legend class="display-6">Dirección entrega</legend>
         <!--Campos Calle nombre y altura de domicilio-->
         <div class="row form-group my-3">
-          <label class="col-form-label col-sm-1" for="calleNombreDomicilio">
+          <label class="col-form-label col-sm-2" for="calleNombreDomicilio">
             Calle y Número <span class="text-danger">*</span>
           </label>
 

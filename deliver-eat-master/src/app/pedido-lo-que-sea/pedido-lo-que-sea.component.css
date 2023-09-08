@@ -14,12 +14,22 @@ form button {
   margin: 1em;
 }
 
+label{
+  background-color: #F0A6CA;
+  border-radius: 15px;
+}
+
 h2,b, label, legend {
   color: black;
 }
 .btn{
   background-color:#9C89B8;
   font-size: 18px;
+}
+.subtitulo{
+  margin:10px;
+  padding: 2px;
+
 }
 hr{
   margin: 2px, 100px, 2px, 100px;
@@ -31,12 +41,15 @@ hr{
   background-color: #EFC3E6;
 }
 
-.coffee {
+.inicio {
   background-color: #F0E6EF;
+  height: 100%;
 }
 
-.pullman-brown-ups-brown {
+.titulo {
   background-color: #9C89B8;
+  border-radius: 40px;
+  margin: 5px;
 }
 
 .mango-tango {

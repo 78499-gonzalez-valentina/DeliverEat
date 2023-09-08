@@ -43,21 +43,6 @@ export class PedidoLoQueSeaComponent implements OnInit {
     // Inicializa el formulario.
     this.buildForm();
 
-    // Actualiza la posición del mapa cuando se elija una ciudad para el comercio.
-    this.form['ciudadComercio'].valueChanges
-      .subscribe((valor) => {
-        let ciudad: Ciudad = ciudades.find(c => c.id === valor) as Ciudad;
-        this.posicion = ciudad.posicion;
-        this.posicionMarcador = ciudad.posicion;
-      })
-
-    // Actualiza valores y validez de los campos piso y letra de departamento ante un cambio en el checkbox.
-    this.form['checkboxEsDepartamento'].valueChanges
-      .subscribe(() => {
-        this.form['pisoDepto'].updateValueAndValidity();
-        this.form['letraDepto'].updateValueAndValidity();
-      });
-
     // Actualiza valores y validez de los campos fecha y hora de entrega ante un cambio en el momento de entrega.
     this.form['momentoEntrega'].valueChanges
       .subscribe(() => {
@@ -88,9 +73,6 @@ export class PedidoLoQueSeaComponent implements OnInit {
     return this.form['formaPago'].value;
   }
 
-  get checkboxEsDepartamento(): boolean {
-    return this.form['checkboxEsDepartamento'].value;
-  }
 
   get ciudadComercio(): number {
     return this.form['ciudadComercio'].value;
@@ -109,7 +91,7 @@ export class PedidoLoQueSeaComponent implements OnInit {
   private buildForm(): void {
     this.formPedido = this.formBuilder.group({
       descripcionPedido: [null, [Validators.required, Validators.minLength(3), Validators.maxLength(240)]],
-      precioPedido: [null, [Validators.required, Validators.pattern("[0-9]*"),Validators.maxLength(240)]],
+      precioPedido: [null, [Validators.required,Validators.pattern("[0-9]*"),Validators.maxLength(240)]],
       imagen: [null],
       calleNombreComercio: [null, [Validators.required, Validators.minLength(3), Validators.maxLength(240)]],
       ciudadComercio: [1, [Validators.required]],
@@ -217,7 +199,7 @@ export class PedidoLoQueSeaComponent implements OnInit {
    */
   confirmarPedido(): void {
     this.submitted = true;
-    if (this.formPedido.invalid) Swal.fire("Revisar los datos ingresados", "", "error"); return;;
+    if (this.formPedido.invalid) Swal.fire("Revisar los datos ingresados", "", "error"); return;
     Swal.fire("Su pedido fue realizado con exito", "You clicked the button!", "success");
     
 
