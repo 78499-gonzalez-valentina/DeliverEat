@@ -1,0 +1,38 @@
+form {
+  padding: 10px;
+  margin-bottom: 1em;
+}
+
+form button {
+  text-align: center;
+  margin: 1em;
+}
+
+h2, label, legend, b {
+  color: white;
+}
+
+hr{
+  border: 2px solid white;
+  border-radius: 10px;
+}
+
+.green-yellow-crayola {
+  background-color: #F9EA9A;
+}
+
+.coffee {
+  background-color: #ecb982;
+}
+
+.pullman-brown-ups-brown {
+  background-color: #5D3A00;
+}
+
+.mango-tango {
+  background-color: #F98948;
+}
+
+.olive {
+  background-color: #9B8816;
+}

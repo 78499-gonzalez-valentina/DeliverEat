@@ -1,0 +1,494 @@
+<div class="coffee">
+  <h2 class="text-center display-4 pullman-brown-ups-brown">
+    DeliverEat
+    <small class="text-muted">{{titulo}}</small>
+  </h2>
+
+  <!-- Registro de un Pedido de lo que Sea -->
+  <form name='formPedido' [formGroup]='formPedido' class="coffee">
+      <fieldset>
+        <b><legend class="display-6">Detalle del pedido</legend></b>
+
+        <!--Campo Descripción-->
+        <div class="form-group row my-3">
+          <label class="col-form-label col-sm-auto" for="descripcionPedido">
+            ¿Qué necesitás? <span class="text-danger">*</span>
+          </label>
+
+          <div class="col-sm-5">
+            <input id="descripcionPedido" type="text" class="form-control" formControlName="descripcionPedido"
+              [ngClass]="{'is-invalid': (form['descripcionPedido'].touched || submitted) && form['descripcionPedido'].errors}"/>
+
+            <div class="text-danger" *ngIf="(form['descripcionPedido'].touched || submitted) && form['descripcionPedido'].errors?.['required']">
+              Dato requerido.
+            </div>
+
+            <div class="text-danger"
+              *ngIf="form['descripcionPedido'].errors?.['minlength'] || form['descripcionPedido'].errors?.['maxlength']">
+              Dato texto, 3 a 30 caracteres.
+            </div>
+          </div>
+        </div>
+
+        <!--Campo Imagen-->
+        <div class="row form-group my-3">
+          <!--Subir imagen-->
+          <label class="col-form-label col-sm-auto">
+            Foto de lo que necesita (opcional)
+          </label>
+          <label for="imagen" class="btn btn-dark col-sm-2">Subir imagen</label>
+          <input  id="imagen" style="visibility:hidden;" type="file" multiple accept=".jpg" (change)="onImagenChange($event)" data-max-size="5">
+
+          <!--Vista previa de imagen-->
+          <div *ngIf="urlImagen && urlImagen !== ''">
+            <img [src]="urlImagen" [alt]="" class="img-thumbnail" width="200px">
+          </div>
+        </div>
+      </fieldset><hr>
+
+      <fieldset>
+        <legend class="display-6">Dirección comercio</legend>
+        <!--Campos Calle nombre y altura de comercio-->
+        <div class="row form-group my-3">
+          <label class="col-form-label col-sm-1" for="calleNombreComercio">
+            Calle <span class="text-danger">*</span>
+          </label>
+
+          <div class="col-sm-3">
+            <input id="calleNombreComercio" type="text" name="calleNombreComercio" class="form-control" formControlName="calleNombreComercio" [ngClass]="{
+            'is-invalid': (form['calleNombreComercio'].touched || submitted)
+            && form['calleNombreComercio'].errors}"/>
+            <div class="text-danger" *ngIf="(form['calleNombreComercio'].touched || submitted) && form['calleNombreComercio'].errors?.['required']">
+              Dato requerido.
+            </div>
+
+            <div class="text-danger" *ngIf="form['calleNombreComercio'].errors?.['minlength'] || form['calleNombreComercio'].errors?.['maxlength'] ">
+              Dato texto, 3 a 50 caracteres.
+            </div>
+          </div>
+
+          <label class="col-form-label col-sm-auto" for="calleNumeroComercio">
+            Altura <span class="text-danger">*</span>
+          </label>
+
+          <div class="col-sm-3">
+            <input id="calleNumeroComercio" type="number" name="calleNumeroComercio" class="form-control" formControlName="calleNumeroComercio" [ngClass]="{'is-invalid': (form['calleNumeroComercio'].touched || submitted)
+            && form['calleNumeroComercio'].errors}"/>
+            <div class="text-danger" *ngIf="(form['calleNumeroComercio'].touched || submitted) && form['calleNumeroComercio'].errors?.['required']">
+              Dato requerido.
+            </div>
+
+            <div class="text-danger" *ngIf="form['calleNumeroComercio'].errors?.['pattern']">
+              Dato numérico, 1 a 5 dígitos.
+            </div>
+          </div>
+        </div>
+
+        <!--Campos Ciudad comercio-->
+        <div class="row form-group my-3">
+          <label class="col-form-label col-sm-1" for="ciudadComercio">
+            Ciudad <span class="text-danger">*</span>
+          </label>
+
+          <div class="col-sm-6">
+            <select id="ciudadComercio" name="ciudadComercio" class="form-select" formControlName="ciudadComercio" [ngClass]="{'is-invalid': (form['ciudadComercio'].touched || submitted)
+            && form['ciudadComercio'].errors}">
+              <option [ngValue]=null selected>Seleccione una ciudad...</option>
+              <option [ngValue]=1>Córdoba</option>
+              <option [ngValue]=2>San Francisco</option>
+              <option [ngValue]=3>Villa General Belgrano</option>
+            </select>
+
+            <div class="text-danger" *ngIf="(form['ciudadComercio'].touched || submitted) && form['ciudadComercio'].errors?.['required']">
+              Dato requerido.
+            </div>
+          </div>
+        </div>
+
+        <!--Mapa interactivo-->
+        <div class="row form-group my-3" *ngIf="ciudadComercio">
+          <google-map height="400px" width="100%" [center]="posicion" [zoom]="zoom" (mapClick)="agregarMarcador($event)">
+            <map-marker *ngIf="agregoMarcador"
+              [position]="posicionMarcador"
+              [options]="opcionesMarcador">
+            </map-marker>
+          </google-map>
+        </div>
+
+        <div class="row form-group my-3">
+          <label class="col-form-label col-sm-auto" for="referenciaComercio">
+            Referencia (Opcional)
+          </label>
+
+          <div class="col-sm-3">
+            <input id="referenciaComercio" type="text" formControlName="referenciaComercio" class="form-control"/>
+          </div>
+
+          <div class="text-danger" *ngIf="
+          form['referenciaComercio'].errors?.['minlength'] ||
+          form['referenciaComercio'].errors?.['maxlength'] ">
+            Dato texto, 3 a 50 caracteres.
+          </div>
+        </div>
+
+      </fieldset> <hr>
+
+      <fieldset>
+        <legend class="display-6">Dirección entrega</legend>
+        <!--Campos Calle nombre y altura de domicilio-->
+        <div class="row form-group my-3">
+          <label class="col-form-label col-sm-1" for="calleNombreDomicilio">
+            Calle <span class="text-danger">*</span>
+          </label>
+
+          <div class="col-sm-3">
+            <input id="calleNombreDomicilio" type="text" name="calleNombreDomicilio" class="form-control" formControlName="calleNombreDomicilio" [ngClass]="{
+            'is-invalid': (form['calleNombreDomicilio'].touched || submitted) && form['calleNombreDomicilio'].errors}"/>
+            <div class="text-danger" *ngIf="(form['calleNombreDomicilio'].touched || submitted) && form['calleNombreDomicilio'].errors?.['required']">
+              Dato requerido.
+            </div>
+
+            <div class="text-danger" *ngIf="form['calleNombreDomicilio'].errors?.['minlength'] ||form['calleNombreDomicilio'].errors?.['maxlength'] ">
+              Dato texto, 3 a 50 caracteres.
+            </div>
+          </div>
+
+          <label class="col-form-label col-sm-auto" for="calleNumeroDomicilio">
+            Altura <span class="text-danger">*</span>
+          </label>
+
+          <div class="col-sm-3">
+            <input id="calleNumeroDomicilio" type="number" name="calleNumeroDomicilio"
+              class="form-control" formControlName="calleNumeroDomicilio"
+              [ngClass]="{'is-invalid': (form['calleNumeroDomicilio'].touched || submitted) && form['calleNumeroDomicilio'].errors}"/>
+            <div class="text-danger" *ngIf="(form['calleNumeroDomicilio'].touched || submitted) && form['calleNumeroDomicilio'].errors?.['required']">
+              Dato requerido.
+            </div>
+
+            <div class="text-danger" *ngIf="form['calleNumeroDomicilio'].errors?.['pattern']">
+              Dato numérico, 1 a 5 dígitos.
+            </div>
+          </div>
+        </div>
+
+        <div class="row form-group my-3">
+          <label>
+            <input type="checkbox" id="esDepto" formControlName="checkboxEsDepartamento">
+            Es un departamento
+          </label>
+        </div>
+
+        <div class="row form-group my-3" *ngIf="checkboxEsDepartamento">
+          <label class="col-form-label col-sm-1" for="pisoDepto">
+            Piso <span class="text-danger">*</span>
+          </label>
+
+          <div class="col-sm-3">
+            <input id="pisoDepto" type="text" name="pisoDepto" class="form-control" formControlName="pisoDepto" [ngClass]="{
+            'is-invalid': (form['pisoDepto'].touched || submitted) && form['pisoDepto'].errors}"/>
+
+            <div class="text-danger" *ngIf="(form['pisoDepto'].touched || submitted) && form['pisoDepto'].errors?.['required']">
+              Dato requerido.
+            </div>
+
+            <div class="text-danger" *ngIf="form['pisoDepto'].errors?.['pattern']">
+              Dato texto, 1 a 2 caracteres.
+            </div>
+          </div>
+
+          <label class="col-form-label col-sm-auto" for="letraDepto">
+            Letra
+          </label>
+
+          <div class="col-sm-3">
+            <input id="letraDepto" type="text" name="letraDepto" class="form-control" formControlName="letraDepto" [ngClass]="{
+            'is-invalid': (form['letraDepto'].touched || submitted) && form['letraDepto'].errors}"/>
+
+            <div class="text-danger" *ngIf="(form['letraDepto'].touched || submitted) && form['letraDepto'].errors?.['required']">
+              Dato requerido.
+            </div>
+
+            <div class="text-danger" *ngIf="form['letraDepto'].errors?.['pattern']">
+              Dato alfabético, 1 dígito.
+            </div>
+          </div>
+        </div>
+
+        <!--Campos Ciudad domicilio-->
+        <div class="row form-group my-3">
+          <label class="col-form-label col-sm-1" for="ciudadDomicilio">
+            Ciudad <span class="text-danger">*</span>
+          </label>
+
+          <div class="col-sm-6">
+            <select id="ciudadDomicilio" name="ciudadDomicilio" class="form-select" formControlName="ciudadDomicilio" [ngClass]="{'is-invalid': (form['ciudadDomicilio'].touched || submitted)
+            && form['ciudadDomicilio'].errors}">
+              <option [ngValue]="null" selected>Seleccione una ciudad...</option>
+              <option [ngValue]="1">Córdoba</option>
+              <option [ngValue]="2">San Francisco</option>
+              <option [ngValue]="3">Villa General Belgrano</option>
+            </select>
+            <div class="text-danger" *ngIf="(form['ciudadDomicilio'].touched || submitted) && form['ciudadDomicilio'].errors?.['required']">
+              Dato requerido.
+            </div>
+          </div>
+        </div>
+
+        <div class="row form-group my-5">
+          <label class="col-form-label col-sm-auto" for="referenciaDomicilio">
+            Referencia (Opcional)
+          </label>
+
+          <div class="col-sm-3">
+            <input id="referenciaDomicilio" type="text" formControlName="referenciaDomicilio" class="form-control"/>
+          </div>
+
+          <div class="text-danger" *ngIf="
+          form['referenciaDomicilio'].errors?.['minlength'] ||
+          form['referenciaDomicilio'].errors?.['maxlength'] ">
+            Dato texto, 3 a 50 caracteres.
+          </div>
+        </div>
+
+      </fieldset><hr>
+
+      <!--Campos de Entrega-->
+      <fieldset>
+
+        <legend class="display-6">Entrega</legend>
+
+        <div class="row form-group my-3">
+          <label class="col-form-label col-sm-2" for="momentoEntrega">
+            Momento de Entrega <span class="text-danger">*</span>
+          </label>
+
+          <div class="col-sm-3">
+            <select [value]="" id="momentoEntrega" name="momentoEntrega" class="form-select" formControlName="momentoEntrega"
+              [ngClass]="{'is-invalid': (form['momentoEntrega'].touched || submitted) && form['momentoEntrega'].errors}">
+              <option [ngValue]="null" selected>Seleccione el momento de entrega...</option>
+              <option [ngValue]="'programar'">Programar ahora</option>
+              <option [ngValue]="'cuanto-antes'">Lo antes posible</option>
+            </select>
+            <div class="text-danger" *ngIf="(form['momentoEntrega'].touched || submitted) && form['momentoEntrega'].errors?.['required']">
+              Dato requerido.
+            </div>
+          </div>
+        </div>
+
+        <!--Campos momento de entrega-->
+
+        <div class="row form-group my-3" *ngIf="momentoEntrega === 'programar'">
+
+          <label class="col-form-label col-sm-auto" for="fechaEntrega">
+            Fecha <span class="text-danger">*</span>
+          </label>
+
+          <div class="col-sm-2" >
+            <input id="fechaEntrega" type="date" name="fechaEntrega" class="form-control" formControlName="fechaEntrega"
+              [ngClass]="{'is-invalid': (form['fechaEntrega'].touched || submitted) && form['fechaEntrega'].errors}"/>
+
+            <div class="text-danger" *ngIf="(form['fechaEntrega'].touched || submitted) && form['fechaEntrega'].errors?.['required']">
+              Dato requerido.
+            </div>
+
+            <div class="text-danger col-sm-auto" *ngIf="form['fechaEntrega'].errors?.['moreThanToday']">
+              La fecha debe ser igual o posterior a hoy.
+            </div>
+
+          </div>
+
+          <label class="col-form-label col-sm-auto" for="horaEntrega">
+           Hora <span class="text-danger">*</span>
+          </label>
+
+          <div class="col-sm-2">
+            <input id="horaEntrega" type="time" name="horaEntrega" class="form-control" formControlName="horaEntrega"
+              [ngClass]="{'is-invalid': (form['horaEntrega'].touched || submitted) && form['horaEntrega'].errors}"/>
+
+            <div class="text-danger" *ngIf="(form['horaEntrega'].touched || submitted) && form['horaEntrega'].errors?.['required']">
+              Dato requerido.
+            </div>
+
+            <div class="text-danger col-sm-auto"
+              *ngIf="(form['horaEntrega'].touched || submitted) && !esHoraValida(form['fechaEntrega'].value, form['horaEntrega'].value)">
+              La hora no debe ser menor a la actual.
+            </div>
+
+            <div class="text-danger col-sm-auto"
+              *ngIf="(form['horaEntrega'].touched || submitted) && !esEnHoraEntrega(form['horaEntrega'].value)">
+              El horario de entregas es de 08:00 a 00:00
+            </div>
+          </div>
+        </div>
+
+      </fieldset>
+
+      <hr>
+
+      <div *ngIf="completoDirecciones()">
+        <!--Campos Total a pagar-->
+        <div class="row form-group my-3 text-uppercase lead">
+          <label class="col-form-label col-auto col-sm-3" for="distanciaPedido">
+            Distancia del pedido
+          </label>
+          <div class="col-form-label col-4 col-sm-2">
+            <b id="distanciaPedido">{{calcularDistancia()}} km</b>
+          </div>
+
+          <label class="col-form-label col-auto col-sm-2" for="totalAPagar">
+            Total a pagar
+          </label>
+
+          <div class="col-form-label col-4 col-sm-2">
+            <b id="totalAPagar">$ {{calcularTotal()}}</b>
+          </div>
+        </div>
+
+        <!--Campos Forma de pago-->
+        <div class="row form-group my-3">
+          <label class="col-form-label col-sm-2" for="formaPago">
+            Forma de pago <span class="text-danger">*</span>
+          </label>
+
+          <div class="col-sm-6">
+            <select id="formaPago" name="formaPago" class="form-select"
+              formControlName="formaPago" [ngClass]="{'is-invalid': (form['formaPago'].touched || submitted)
+              && form['formaPago'].errors}">
+              <option [ngValue]="null" selected>Seleccione una forma de pago...</option>
+              <option [ngValue]="'tarjeta'">Tarjeta de Crédito MasterCard</option>
+              <option [ngValue]="'efectivo'">Efectivo</option>
+            </select>
+
+            <div class="text-danger" *ngIf="(form['formaPago'].touched || submitted) && form['formaPago'].errors?.['required']">
+              Dato requerido.
+            </div>
+          </div>
+        </div>
+
+        <!--Campos Efectivo-->
+        <div class="row form-group my-3" *ngIf="formaPago === 'efectivo'">
+
+          <label class="col-form-label col-sm-auto" for="montoAAbonar">
+            Monto a abonar <span class="text-danger">*</span>
+          </label>
+
+          <div class="col-sm-2">
+            <input id="montoAAbonar" type="number" name="montoAAbonar" class="form-control" formControlName="montoAAbonar"
+              [ngClass]="{'is-invalid': (form['montoAAbonar'].touched || submitted) && form['montoAAbonar'].errors}"/>
+          </div>
+
+          <div class="text-danger col-sm-auto"
+            *ngIf="(form['montoAAbonar'].touched || submitted) && form['montoAAbonar'].errors?.['required']">
+            Dato requerido.
+          </div>
+
+          <div class="text-danger col-sm-auto" *ngIf="form['montoAAbonar'].errors?.['min']">
+            El monto a pagar debe ser mayor al monto total.
+          </div>
+
+          <div class="text-danger col-sm-auto" *ngIf="form['montoAAbonar'].errors?.['max']">
+            El monto máximo es de $ 999.999.
+          </div>
+        </div>
+
+        <!--Campos de Tarjeta-->
+        <div *ngIf="formaPago === 'tarjeta'">
+          <div class="row form-group my-3">
+
+            <label class="col-form-label col-sm-auto" for="nroTarjeta">
+              Número de tarjeta <span class="text-danger">*</span>
+            </label>
+
+            <div class="col-sm-2">
+              <input id="nroTarjeta" type="number" name="nroTarjeta" class="form-control" formControlName="nroTarjeta"
+                [ngClass]="{'is-invalid': (form['nroTarjeta'].touched || submitted) && form['nroTarjeta'].errors}"/>
+
+              <div class="text-danger"
+                *ngIf="(form['nroTarjeta'].touched || submitted) && form['nroTarjeta'].errors?.['required']">
+                Dato requerido.
+              </div>
+
+              <div class="text-danger" *ngIf="form['nroTarjeta'].errors?.['pattern']">
+                No es una tarjeta de crédito Master Card válida.
+              </div>
+            </div>
+
+            <label class="col-form-label col-sm-auto" for="titularTarjeta" >
+              Titular <span class="text-danger">*</span>
+            </label>
+
+            <div class="col-sm-2">
+              <input id="titularTarjeta" type="text" name="titularTarjeta" class="form-control" formControlName="titularTarjeta"
+                [ngClass]="{'is-invalid': (form['titularTarjeta'].touched || submitted) && form['titularTarjeta'].errors}"/>
+
+              <div class="text-danger"
+                *ngIf="(form['titularTarjeta'].touched || submitted) && form['titularTarjeta'].errors?.['required']">
+                Dato requerido.
+              </div>
+
+              <div class="text-danger"
+                *ngIf="form['titularTarjeta'].errors?.['minlength'] || form['titularTarjeta'].errors?.['maxlength']">
+                Dato texto, 4 a 50 caracteres.
+              </div>
+            </div>
+
+          </div>
+
+          <div class="row form-group my-3">
+
+            <label class="col-form-label col-sm-auto" for="fechaVencimientoTarjeta">
+              Fecha de Vencimiento <span class="text-danger">*</span>
+            </label>
+
+            <div class="col-sm-2">
+              <input id="fechaVencimientoTarjeta" type="text" name="fechaVencimientoTarjeta" class="form-control" formControlName="fechaVencimientoTarjeta" placeholder="MM/AAAA"
+                [ngClass]="{'is-invalid': (form['fechaVencimientoTarjeta'].touched || submitted) && form['fechaVencimientoTarjeta'].errors}"/>
+
+              <div class="text-danger"
+                *ngIf="(form['fechaVencimientoTarjeta'].touched || submitted) && form['fechaVencimientoTarjeta'].errors?.['required']">
+                Dato requerido.
+              </div>
+
+              <div class="text-danger" *ngIf="form['fechaVencimientoTarjeta'].errors?.['pattern']">
+                Ingrese una fecha de vencimiento correcta.
+              </div>
+            </div>
+
+            <label class="col-form-label col-sm-auto" for="codigoSeguridadTarjeta">
+              Código de Seguridad <span class="text-danger">*</span>
+            </label>
+
+            <div class="col-sm-2">
+              <input id="codigoSeguridadTarjeta" type="number" name="codigoSeguridadTarjeta" class="form-control" formControlName="codigoSeguridadTarjeta"
+                [ngClass]="{'is-invalid': (form['codigoSeguridadTarjeta'].touched || submitted) && form['codigoSeguridadTarjeta'].errors}"/>
+
+              <div class="text-danger"
+                *ngIf="(form['codigoSeguridadTarjeta'].touched || submitted) && form['codigoSeguridadTarjeta'].errors?.['required']">
+                Dato requerido.
+              </div>
+
+              <div class="text-danger" *ngIf="form['codigoSeguridadTarjeta'].errors?.['pattern']">
+                Código de 3 números.
+              </div>
+            </div>
+
+          </div>
+
+        </div>
+
+      </div>
+
+
+    <!-- Botón Grabar -->
+    <div class="row justify-content-center">
+      <button type="button" class="btn btn-dark col-sm-4" (click)="confirmarPedido()">
+        <i class="fa fa-check"></i> Confirmar Pedido
+      </button>&nbsp;
+    </div>
+
+    <!--Alerta de Revisar los datos ingresados...-->
+    <div id="divMsjFormRegistro" class="row alert alert-danger" *ngIf="formPedido.invalid && submitted">
+      <i class="fa fa-exclamation-sign"></i>Revisar los datos ingresados
+    </div>
+  </form>
+</div>
