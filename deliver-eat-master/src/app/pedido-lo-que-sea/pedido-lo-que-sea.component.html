@@ -1,13 +1,13 @@
 <div class="inicio">
   <h2 class="text-center display-4 titulo">
     <img class="logo" src="../../assets/deliver.png" alt="" width="150" height="150">
-    DeliverEat
+    Deliver-Eat
   </h2>
   <h3 class="text-center display-8 subtitulo"> Realizar pedido de lo que sea </h3>
  
 
   <!-- Registro de un Pedido de lo que Sea -->
-  <form name='formPedido' [formGroup]='formPedido' class="coffee">
+  <form name='formPedido' [formGroup]='formPedido' class="inicio">
       <fieldset>
         <b><legend class="display-6">Detalle del pedido</legend></b>
 
@@ -36,16 +36,11 @@
           </label>
 
           <div class="col-sm-3">
-            <input id="precioPedido" type="text" class="form-control" formControlName="precioPedido"
+            <input id="precioPedido" type="number" class="form-control" formControlName="precioPedido"
               [ngClass]="{'is-invalid': (form['precioPedido'].touched || submitted) && form['precioPedido'].errors}"/>
 
             <div class="text-danger" *ngIf="(form['precioPedido'].touched || submitted) && form['precioPedido'].errors?.['required']">
               Dato requerido.
-            </div>
-
-            <div class="text-danger"
-              *ngIf="form['precioPedido'].errors?.['pattern'] || form['precioPedido'].errors?.['maxlength']">
-              Se requiere ingresar numeros en este campo.
             </div>
 
           </div>
@@ -111,16 +106,6 @@
             </div>
           </div>
         </div>
-
-        <!--Mapa interactivo-->
-        <!--<div class="row form-group my-3" *ngIf="ciudadComercio">
-          <google-map height="400px" width="100%" [center]="posicion" [zoom]="zoom" (mapClick)="agregarMarcador($event)">
-            <map-marker *ngIf="agregoMarcador"
-              [position]="posicionMarcador"
-              [options]="opcionesMarcador">
-            </map-marker>
-          </google-map>
-        </div>-->
 
         <div class="row form-group my-3">
           <label class="col-form-label col-sm-auto" for="referenciaComercio">

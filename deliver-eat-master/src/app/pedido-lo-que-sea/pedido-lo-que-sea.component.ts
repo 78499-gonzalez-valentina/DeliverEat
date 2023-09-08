@@ -200,38 +200,23 @@ export class PedidoLoQueSeaComponent implements OnInit {
       Swal.fire("Revisar los datos ingresados", "", "error");
     }
   }
-  // confirmarPedido(): void {
-  //   this.submitted = true;
-  //   if (this.formPedido.invalid) Swal.fire("Revisar los datos ingresados", "", "error"); return;
-
-  //   Swal.fire("Su pedido fue realizado con exito", "", "success");
-    
-
-  //   // Reseteamos bandera y estado del formulario.
-  //   this.submitted = false;
-  //   this.formPedido.reset({ ciudadComercio: 1 });
-  //   this.formPedido.markAsUntouched();
-  //   this.urlImagen = '';
-  // }
 
  completoDirecciones(): boolean {
     return this.form['calleNombreComercio'].valid && this.form['ciudadComercio'].valid
      && this.form['calleNombreDomicilio'].valid &&  this.form['ciudadDomicilio'].valid;
   }
 
-  /**
-   * Calcula la distancia en kilómetros entre la dirección de comercio y la dirección de entrega del pedido.
-   */
- //7
 
 
   /**
    * Calcula el monto total a pagar por el usuario según el precio del producto.
    */
   calcularTotal(): number {
+    const inputPrecio = document.getElementById("precioPedido") as HTMLInputElement;
+    const valorInput = inputPrecio.value;
+    const valorNumerico = parseFloat(valorInput);
     
-
-    this.totalAPagar = 500 
+    this.totalAPagar = 500 + valorNumerico
     
 
 
