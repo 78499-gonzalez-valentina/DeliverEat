@@ -94,16 +94,20 @@
           </label>
 
           <div class="col-sm-6">
-            <select id="ciudadComercio" name="ciudadComercio" class="form-select" formControlName="ciudadComercio" [ngClass]="{'is-invalid': (form['ciudadComercio'].touched || submitted)
-            && form['ciudadComercio'].errors}">
-              <option [ngValue]=null selected>Seleccione una ciudad...</option>
-              <option [ngValue]=1>Carlos Paz</option>
-              <option [ngValue]=2>Córdoba</option>
-            </select>
-
-            <div class="text-danger" *ngIf="(form['ciudadComercio'].touched || submitted) && form['ciudadComercio'].errors?.['required']">
+            <input type="text" id="ciudadComercio" list="ciudades" name="ciudadComercio" class="form-select" formControlName="ciudadComercio" [ngClass]="{'is-invalid': (form['ciudadComercio'].touched || submitted)
+            && form['ciudadComercio'].errors}"oninput="buscarCiudad()" />
+            <datalist id="ciudades">
+              <option value="Carlos Paz">
+              <option value="Cordoba">
+            </datalist>
+  
+            <div class="text-danger" *ngIf="(form['ciudadComercio'].touched || submitted) && form['ciudadComercio'].errors?.['required'] ">
               Dato requerido.
             </div>
+            <div *ngIf="form['ciudadComercio'].hasError('pattern')">
+              Solo operamos en Cordoba y Carlos Paz.
+            </div>
+            
           </div>
         </div>
 
@@ -153,17 +157,22 @@
             Ciudad <span class="text-danger">*</span>
           </label>
 
-          <div class="col-sm-6">
-            <select id="ciudadDomicilio" name="ciudadDomicilio" class="form-select" formControlName="ciudadDomicilio" [ngClass]="{'is-invalid': (form['ciudadDomicilio'].touched || submitted)
-            && form['ciudadDomicilio'].errors}">
-              <option [ngValue]="null" selected>Seleccione una ciudad...</option>
-              <option [ngValue]="1">Carlos paz </option>
-              <option [ngValue]="2">Córdoba</option>
-            </select>
-            <div class="text-danger" *ngIf="(form['ciudadDomicilio'].touched || submitted) && form['ciudadDomicilio'].errors?.['required']">
-              Dato requerido.
-            </div>
+        <div class="col-sm-6">
+          <input type="text" id="ciudadDomicilio" list="ciudades" name="ciudadDomicilio" class="form-select" formControlName="ciudadDomicilio" [ngClass]="{'is-invalid': (form['ciudadDomicilio'].touched || submitted)
+          && form['ciudadDomicilio'].errors}"oninput="buscarCiudad()" />
+          <datalist id="ciudades">
+            <option value="Carlos Paz">
+            <option value="Cordoba">
+          </datalist>
+
+          <div class="text-danger" *ngIf="(form['ciudadDomicilio'].touched || submitted) && form['ciudadDomicilio'].errors?.['required'] ">
+            Dato requerido.
           </div>
+          <div *ngIf="form['ciudadDomicilio'].hasError('pattern')">
+            Solo operamos en Cordoba y Carlos Paz.
+          </div>
+        </div>
+          
         </div>
 
         <div class="row form-group my-5">

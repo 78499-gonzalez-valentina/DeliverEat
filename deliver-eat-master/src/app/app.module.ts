@@ -5,11 +5,15 @@ import { AppComponent } from './app.component';
 import { PedidoLoQueSeaComponent } from './pedido-lo-que-sea/pedido-lo-que-sea.component';
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {GoogleMapsModule} from "@angular/google-maps";
+import { CiudadComponent } from './ciudad/ciudad.component';
+
+
 
 @NgModule({
   declarations: [
     AppComponent,
-    PedidoLoQueSeaComponent
+    PedidoLoQueSeaComponent,
+    CiudadComponent
   ],
   imports: [
     BrowserModule,

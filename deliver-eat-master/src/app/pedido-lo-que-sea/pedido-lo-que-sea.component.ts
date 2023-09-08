@@ -3,17 +3,18 @@ import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { ConditionalValidator } from "../shared/validators/conditional.validator";
 import { DateTimeValidator } from "../shared/validators/date.time.validator";
 import { Ciudad, ciudades } from "./shared/models/ciudad.model";
-import { DireccionEntrega, direccionesEntrega } from "./shared/models/direccion-entrega.model";
 import * as moment from "moment/moment";
 import Swal from 'sweetalert2';
-const precio = document.getElementById("precioPedido") as HTMLInputElement;
+import { FormControl, ValidationErrors } from '@angular/forms';
 
 
 @Component({
   selector: 'app-pedido-lo-que-sea',
   templateUrl: './pedido-lo-que-sea.component.html',
   styleUrls: ['./pedido-lo-que-sea.component.css']
+  
 })
+
 export class PedidoLoQueSeaComponent implements OnInit {
   titulo: string = 'Realizar un pedido de lo que sea';
 
@@ -83,10 +84,10 @@ export class PedidoLoQueSeaComponent implements OnInit {
       precioPedido: [null, [Validators.required,Validators.pattern("[0-9]*"),Validators.maxLength(240)]],
       imagen: [null],
       calleNombreComercio: [null, [Validators.required, Validators.minLength(3), Validators.maxLength(240)]],
-      ciudadComercio: [1, [Validators.required]],
+      ciudadComercio: [null, [Validators.required, Validators.pattern(/^(Cordoba|Carlos Paz)$/)]],
       referenciaComercio: [null, [Validators.minLength(3), Validators.maxLength(240)]],
       calleNombreDomicilio: [null, [Validators.required, Validators.minLength(3), Validators.maxLength(240)]],
-      ciudadDomicilio: [null ,Validators.required],
+      ciudadDomicilio: [null ,[Validators.required, Validators.pattern(/^(Cordoba|Carlos Paz)$/)]],
       referenciaDomicilio: [null, [Validators.minLength(3), Validators.maxLength(240)]],
       momentoEntrega: [null, Validators.required],
       fechaEntrega: [null, [
@@ -227,6 +228,45 @@ export class PedidoLoQueSeaComponent implements OnInit {
 
     return this.totalAPagar;
   }
+
+  
+
+   buscarCiudad() {
+
+    const input = document.getElementById("ciudadInput") as HTMLInputElement;
+    const ciudadInput = input.value.toLowerCase();
+    const datalist = document.getElementById("ciudades") as HTMLDataListElement;
+    
+    const options = Array.from(datalist.options);
+
+    if (ciudadInput !== "cordoba" && ciudadInput !== "carlos paz") {
+      alert("Por favor, ingrese 'Cordoba' o 'Carlos Paz'."); // Mostrar una alerta si el valor no coincide
+      input.value = ""; // Limpiar el input
+    }
+  
+    for (let option of options) {
+      const ciudad = option.value.toLowerCase();
+  
+      if (ciudad.includes(ciudadInput)) {
+        option.style.display = "block"; // Mostrar la opción si hay coincidencia
+      } else {
+        option.style.display = "none"; // Ocultar la opción si no hay coincidencia
+      }
+    }
+  }
+
+  ciudadValidator(control: FormControl): ValidationErrors | null {
+    const validCities = ['Cordoba', 'Carlos Paz'];
+    const inputValue = control.value;
+  
+    if (validCities.includes(inputValue)) {
+      return null; // La validación pasó, no hay error
+    } else {
+      return { invalidCiudad: true }; // La validación falló, retorna un error
+    }
+  }
+  
+  
 }
 
 

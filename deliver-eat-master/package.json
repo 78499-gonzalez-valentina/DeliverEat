@@ -22,7 +22,9 @@
     "bootstrap": "^5.2.0",
     "moment": "^2.29.4",
     "momento": "^0.2.0",
+    "ngx-select": "^0.0.1",
     "popper.js": "^1.16.1",
+    "react-select": "^5.7.4",
     "rxjs": "~7.5.0",
     "tslib": "^2.3.0",
     "zone.js": "~0.11.4"
