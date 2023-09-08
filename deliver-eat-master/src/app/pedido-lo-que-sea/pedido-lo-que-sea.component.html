@@ -1,5 +1,6 @@
 <div class="coffee">
   <h2 class="text-center display-4 pullman-brown-ups-brown">
+    <img class="logo" src="../../assets/deliver.png" alt="" width="150" height="150">
     DeliverEat
     <small class="text-muted">{{titulo}}</small>
   </h2>
@@ -42,8 +43,8 @@
             </div>
 
             <div class="text-danger"
-              *ngIf="form['precioPedido'].errors?.['minlength'] || form['precioPedido'].errors?.['maxlength']">
-              Se requieren de 3 a 240 caracteres.
+              *ngIf="form['precioPedido'].errors?.['pattern'] || form['precioPedido'].errors?.['maxlength']">
+              Se requiere ingresar numeros en este campo.
             </div>
 
           </div>
@@ -55,7 +56,7 @@
           <label class="col-form-label col-sm-auto">
             Foto de lo que necesita
           </label>
-          <label for="imagen" class="btn btn-dark col-sm-2">Subir imagen</label>
+          <label for="imagen" class="btn col-sm-2">Subir imagen</label>
           <input  id="imagen" style="visibility:hidden;" type="file" multiple accept=".jpg" (change)="onImagenChange($event)" data-max-size="5">
 
           <!--Vista previa de imagen-->
@@ -426,7 +427,7 @@
 
     <!-- Botón Grabar -->
     <div class="row justify-content-center">
-      <button type="button" class="btn btn-dark col-sm-4" (click)="confirmarPedido()">
+      <button type="button" class="btn col-sm-4" (click)="confirmarPedido()">
         <i class="fa fa-check"></i> Confirmar Pedido
       </button>&nbsp;
     </div>

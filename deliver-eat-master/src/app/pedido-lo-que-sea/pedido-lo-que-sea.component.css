@@ -1,3 +1,9 @@
+@import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@200;300&display=swap");
+*{
+  font-family: "Montserrat", sans-serif;
+  
+}
+
 form {
   padding: 10px;
   margin-bottom: 1em;
@@ -8,31 +14,37 @@ form button {
   margin: 1em;
 }
 
-h2, label, legend, b {
-  color: white;
+h2,b, label, legend {
+  color: black;
 }
-
+.btn{
+  background-color:#9C89B8;
+  font-size: 18px;
+}
 hr{
-  border: 2px solid white;
+  margin: 2px, 100px, 2px, 100px;
+  border: 2px solid #B8BEDD;
   border-radius: 10px;
 }
 
 .green-yellow-crayola {
-  background-color: #F9EA9A;
+  background-color: #EFC3E6;
 }
 
 .coffee {
-  background-color: #ecb982;
+  background-color: #F0E6EF;
 }
 
 .pullman-brown-ups-brown {
-  background-color: #5D3A00;
+  background-color: #9C89B8;
 }
 
 .mango-tango {
-  background-color: #F98948;
+  background-color: #B8BEDD;
 }
 
 .olive {
-  background-color: #9B8816;
+  background-color: #F0A6CA;
 }
+
+

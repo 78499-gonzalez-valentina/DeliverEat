@@ -109,20 +109,12 @@ export class PedidoLoQueSeaComponent implements OnInit {
   private buildForm(): void {
     this.formPedido = this.formBuilder.group({
       descripcionPedido: [null, [Validators.required, Validators.minLength(3), Validators.maxLength(240)]],
-      precioPedido: [null, [Validators.required, Validators.minLength(3), Validators.maxLength(240)]],
+      precioPedido: [null, [Validators.required, Validators.pattern("[0-9]*"),Validators.maxLength(240)]],
       imagen: [null],
       calleNombreComercio: [null, [Validators.required, Validators.minLength(3), Validators.maxLength(240)]],
       ciudadComercio: [1, [Validators.required]],
       referenciaComercio: [null, [Validators.minLength(3), Validators.maxLength(240)]],
       calleNombreDomicilio: [null, [Validators.required, Validators.minLength(3), Validators.maxLength(240)]],
-      calleNumeroDomicilio: [null, [Validators.required, Validators.pattern("[0-9]{1,5}")]],
-      checkboxEsDepartamento: [null],
-      pisoDepto: [null, [
-        Validators.pattern("[0-9]{1,2}"),
-        ConditionalValidator.conditionalValidator(() => this.checkboxEsDepartamento, Validators.required)]],
-      letraDepto: [null, [
-        Validators.pattern("[A-Z]{1}"),
-        ConditionalValidator.conditionalValidator(() => this.checkboxEsDepartamento, Validators.required)]],
       ciudadDomicilio: [null ,Validators.required],
       referenciaDomicilio: [null, [Validators.minLength(3), Validators.maxLength(240)]],
       momentoEntrega: [null, Validators.required],
@@ -293,7 +285,7 @@ export class PedidoLoQueSeaComponent implements OnInit {
    */
   calcularTotal(): number {
     this.totalAPagar = 500 
-    
+
 
     //this.totalAPagar = (this.distancia / 0.5) * 250;
     //if (this.distancia < 0.5) this.totalAPagar = 250;
