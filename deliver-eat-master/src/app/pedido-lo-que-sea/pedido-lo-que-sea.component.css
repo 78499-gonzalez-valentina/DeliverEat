@@ -17,8 +17,12 @@ form button {
 label{
   background-color: #F0A6CA;
   border-radius: 15px;
+  margin:8px;
 }
-
+legend{
+  font-size: 40px;
+  margin:20px;
+}
 h2,b, label, legend {
   color: black;
 }

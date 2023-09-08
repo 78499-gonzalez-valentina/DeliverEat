@@ -23,17 +23,6 @@ export class PedidoLoQueSeaComponent implements OnInit {
 
   submitted: boolean = false;
 
-  posicion: google.maps.LatLngLiteral = { lat: -31.4290879, lng: -64.18715 }
-
-  zoom: number = 15;
-
-  posicionMarcador: google.maps.LatLngLiteral;
-
-  agregoMarcador: boolean = false;
-
-  opcionesMarcador: google.maps.MarkerOptions = { draggable: false };
-
-  distancia: number;
 
   totalAPagar: number;
 
@@ -197,42 +186,34 @@ export class PedidoLoQueSeaComponent implements OnInit {
    * Marca el formulario como enviado, comprueba las validaciones de los campos y, si pasan, alerta el éxito
    * por pantalla.
    */
+
   confirmarPedido(): void {
-    this.submitted = true;
-    if (this.formPedido.invalid) Swal.fire("Revisar los datos ingresados", "", "error"); return;
-    Swal.fire("Su pedido fue realizado con exito", "You clicked the button!", "success");
+    if (this.formPedido.valid) {
+      // Todas las validaciones son correctas, muestra un mensaje de éxito
+      Swal.fire("Su pedido fue realizado con exito", "", "success");
+      this.submitted = false;
+      this.formPedido.reset({ ciudadComercio: 1 });
+      this.formPedido.markAsUntouched();
+      this.urlImagen = '';
+    } else {
+      // Al menos una validación no es correcta, muestra un mensaje de error
+      Swal.fire("Revisar los datos ingresados", "", "error");
+    }
+  }
+  // confirmarPedido(): void {
+  //   this.submitted = true;
+  //   if (this.formPedido.invalid) Swal.fire("Revisar los datos ingresados", "", "error"); return;
+
+  //   Swal.fire("Su pedido fue realizado con exito", "", "success");
     
 
-    // Reseteamos bandera y estado del formulario.
-    this.submitted = false;
-    this.formPedido.reset({ ciudadComercio: 1 });
-    this.formPedido.markAsUntouched();
-    this.agregoMarcador = false;
-    this.urlImagen = '';
-  }
+  //   // Reseteamos bandera y estado del formulario.
+  //   this.submitted = false;
+  //   this.formPedido.reset({ ciudadComercio: 1 });
+  //   this.formPedido.markAsUntouched();
+  //   this.urlImagen = '';
+  // }
 
-  /**
-   * Agrega un marcador al mapa interactivo ante un toque por parte del usuario y autocompleta la dirección.
-   * @param evento toque en una parte del mapa por parte del usuario.
-   */
-  agregarMarcador(evento: google.maps.MapMouseEvent): void {
-    this.agregoMarcador = true;
-    if (evento.latLng != null) this.posicionMarcador = evento.latLng.toJSON();
-
-    // Obtiene la dirección del comercio de manera aleatoria.
-    let indice: number = Math.floor(Math.random() * 5);
-    let direccionRnd: DireccionEntrega = direccionesEntrega.filter(d => d.ciudad.id === this.ciudadComercio)[indice];
-
-    // Autocompleta la dirección del comercio en el formulario.
-    this.formPedido.patchValue(
-      {
-        calleNombreComercio: direccionRnd.calleNombre + ' ' + direccionRnd.calleNumero
-      });
-  }
-
-  /**
-   * Devuelve verdadero si el usuario completó todos los campos requeridos para las direcciones y falso en otro caso.
-   */
  completoDirecciones(): boolean {
     return this.form['calleNombreComercio'].valid && this.form['ciudadComercio'].valid
      && this.form['calleNombreDomicilio'].valid &&  this.form['ciudadDomicilio'].valid;
@@ -242,35 +223,17 @@ export class PedidoLoQueSeaComponent implements OnInit {
    * Calcula la distancia en kilómetros entre la dirección de comercio y la dirección de entrega del pedido.
    */
  //7
- calcularDistancia(): number {
-    let posicionDomicilio: google.maps.LatLngLiteral
-      = (ciudades.find(c => c.id === this.ciudadDomicilio) as Ciudad).posicion;
 
-    let posicionComercio: google.maps.LatLngLiteral;
-    // Si agregó un marcador para la dirección del comercio, tomo esa dirección.
-    if (this.posicionMarcador) posicionComercio = this.posicionMarcador as google.maps.LatLngLiteral;
-    // Si no, se obtiene de manera aleatoria.
-    else {
-      // Obtiene la latitud y longitud del comercio de manera aleatoria.
-      let indice: number = Math.floor(Math.random() * 5);
-      let direccionRnd: DireccionEntrega = direccionesEntrega.filter(d => d.ciudad.id === this.ciudadComercio)[indice];
-      posicionComercio = direccionRnd.posicion;
-      this.posicionMarcador = posicionComercio;
-    }
-    this.distancia = Number((google.maps.geometry.spherical.computeLength([
-      posicionDomicilio, posicionComercio]) / 1000).toFixed(2));
-    return this.distancia;
-  }
 
   /**
-   * Calcula el monto total a pagar por el usuario según la distancia a recorrer por el cadete.
+   * Calcula el monto total a pagar por el usuario según el precio del producto.
    */
   calcularTotal(): number {
+    
+
     this.totalAPagar = 500 
+    
 
-
-    //this.totalAPagar = (this.distancia / 0.5) * 250;
-    //if (this.distancia < 0.5) this.totalAPagar = 250;
 
     this.form['montoAAbonar'].setValidators([
       Validators.min(this.totalAPagar),
