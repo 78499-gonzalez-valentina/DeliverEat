@@ -6,6 +6,7 @@ import { Ciudad, ciudades } from "./shared/models/ciudad.model";
 import { DireccionEntrega, direccionesEntrega } from "./shared/models/direccion-entrega.model";
 import * as moment from "moment/moment";
 import Swal from 'sweetalert2';
+const precio = document.getElementById("precioPedido") as HTMLInputElement;
 
 
 @Component({
@@ -108,9 +109,9 @@ export class PedidoLoQueSeaComponent implements OnInit {
   private buildForm(): void {
     this.formPedido = this.formBuilder.group({
       descripcionPedido: [null, [Validators.required, Validators.minLength(3), Validators.maxLength(240)]],
+      precioPedido: [null, [Validators.required, Validators.minLength(3), Validators.maxLength(240)]],
       imagen: [null],
       calleNombreComercio: [null, [Validators.required, Validators.minLength(3), Validators.maxLength(240)]],
-      calleNumeroComercio: [null, [Validators.required, Validators.pattern("[0-9]{1,5}")]],
       ciudadComercio: [1, [Validators.required]],
       referenciaComercio: [null, [Validators.minLength(3), Validators.maxLength(240)]],
       calleNombreDomicilio: [null, [Validators.required, Validators.minLength(3), Validators.maxLength(240)]],
@@ -134,7 +135,7 @@ export class PedidoLoQueSeaComponent implements OnInit {
         Validators.max(999999),
         ConditionalValidator.conditionalValidator(() => this.formaPago === 'efectivo', Validators.required)]],
       nroTarjeta: [null, [
-        Validators.pattern("4[0-9]{12}"),
+        Validators.pattern("4[0-9]{15}"),
         ConditionalValidator.conditionalValidator(() => this.formaPago === 'tarjeta', Validators.required)]],
       titularTarjeta: [null, [
         Validators.minLength(4),
@@ -258,15 +259,16 @@ export class PedidoLoQueSeaComponent implements OnInit {
   /**
    * Devuelve verdadero si el usuario completó todos los campos requeridos para las direcciones y falso en otro caso.
    */
-  completoDirecciones(): boolean {
+ completoDirecciones(): boolean {
     return this.form['calleNombreComercio'].valid && this.form['ciudadComercio'].valid
-      && this.form['calleNombreDomicilio'].valid &&  this.form['ciudadDomicilio'].valid;
+     && this.form['calleNombreDomicilio'].valid &&  this.form['ciudadDomicilio'].valid;
   }
 
   /**
    * Calcula la distancia en kilómetros entre la dirección de comercio y la dirección de entrega del pedido.
    */
-  calcularDistancia(): number {
+ //7
+ calcularDistancia(): number {
     let posicionDomicilio: google.maps.LatLngLiteral
       = (ciudades.find(c => c.id === this.ciudadDomicilio) as Ciudad).posicion;
 
@@ -290,9 +292,11 @@ export class PedidoLoQueSeaComponent implements OnInit {
    * Calcula el monto total a pagar por el usuario según la distancia a recorrer por el cadete.
    */
   calcularTotal(): number {
-    this.totalAPagar = 500
-    this.totalAPagar = (this.distancia / 0.5) * 250;
-    if (this.distancia < 0.5) this.totalAPagar = 250;
+    this.totalAPagar = 500 
+    
+
+    //this.totalAPagar = (this.distancia / 0.5) * 250;
+    //if (this.distancia < 0.5) this.totalAPagar = 250;
 
     this.form['montoAAbonar'].setValidators([
       Validators.min(this.totalAPagar),

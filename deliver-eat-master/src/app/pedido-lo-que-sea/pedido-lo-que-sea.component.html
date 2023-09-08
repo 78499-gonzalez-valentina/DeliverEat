@@ -12,7 +12,7 @@
         <!--Campo Descripción-->
         <div class="form-group row my-3">
           <label class="col-form-label col-sm-auto" for="descripcionPedido">
-            ¿Qué necesitás? <span class="text-danger">*</span>
+            ¿Qué estas buscando? <span class="text-danger">*</span>
           </label>
 
           <div class="col-sm-5">
@@ -25,8 +25,27 @@
 
             <div class="text-danger"
               *ngIf="form['descripcionPedido'].errors?.['minlength'] || form['descripcionPedido'].errors?.['maxlength']">
-              Dato texto, 3 a 30 caracteres.
+              Se requieren de 3 a 240 caracteres.
             </div>
+          </div>
+
+          <label class="col-form-label col-sm-auto" for="descripcionPedido">
+            Precio del producto <span class="text-danger">*</span>
+          </label>
+
+          <div class="col-sm-3">
+            <input id="precioPedido" type="text" class="form-control" formControlName="precioPedido"
+              [ngClass]="{'is-invalid': (form['precioPedido'].touched || submitted) && form['precioPedido'].errors}"/>
+
+            <div class="text-danger" *ngIf="(form['precioPedido'].touched || submitted) && form['precioPedido'].errors?.['required']">
+              Dato requerido.
+            </div>
+
+            <div class="text-danger"
+              *ngIf="form['precioPedido'].errors?.['minlength'] || form['precioPedido'].errors?.['maxlength']">
+              Se requieren de 3 a 240 caracteres.
+            </div>
+
           </div>
         </div>
 
@@ -34,7 +53,7 @@
         <div class="row form-group my-3">
           <!--Subir imagen-->
           <label class="col-form-label col-sm-auto">
-            Foto de lo que necesita (opcional)
+            Foto de lo que necesita
           </label>
           <label for="imagen" class="btn btn-dark col-sm-2">Subir imagen</label>
           <input  id="imagen" style="visibility:hidden;" type="file" multiple accept=".jpg" (change)="onImagenChange($event)" data-max-size="5">
@@ -51,7 +70,7 @@
         <!--Campos Calle nombre y altura de comercio-->
         <div class="row form-group my-3">
           <label class="col-form-label col-sm-1" for="calleNombreComercio">
-            Calle <span class="text-danger">*</span>
+            Calle y numero <span class="text-danger">*</span>
           </label>
 
           <div class="col-sm-3">
@@ -63,25 +82,12 @@
             </div>
 
             <div class="text-danger" *ngIf="form['calleNombreComercio'].errors?.['minlength'] || form['calleNombreComercio'].errors?.['maxlength'] ">
-              Dato texto, 3 a 50 caracteres.
+              Se requieren de 3 a 240 caracteres.
             </div>
           </div>
 
-          <label class="col-form-label col-sm-auto" for="calleNumeroComercio">
-            Altura <span class="text-danger">*</span>
-          </label>
-
-          <div class="col-sm-3">
-            <input id="calleNumeroComercio" type="number" name="calleNumeroComercio" class="form-control" formControlName="calleNumeroComercio" [ngClass]="{'is-invalid': (form['calleNumeroComercio'].touched || submitted)
-            && form['calleNumeroComercio'].errors}"/>
-            <div class="text-danger" *ngIf="(form['calleNumeroComercio'].touched || submitted) && form['calleNumeroComercio'].errors?.['required']">
-              Dato requerido.
-            </div>
-
-            <div class="text-danger" *ngIf="form['calleNumeroComercio'].errors?.['pattern']">
-              Dato numérico, 1 a 5 dígitos.
-            </div>
-          </div>
+          
+         
         </div>
 
         <!--Campos Ciudad comercio-->
@@ -94,9 +100,8 @@
             <select id="ciudadComercio" name="ciudadComercio" class="form-select" formControlName="ciudadComercio" [ngClass]="{'is-invalid': (form['ciudadComercio'].touched || submitted)
             && form['ciudadComercio'].errors}">
               <option [ngValue]=null selected>Seleccione una ciudad...</option>
-              <option [ngValue]=1>Córdoba</option>
-              <option [ngValue]=2>San Francisco</option>
-              <option [ngValue]=3>Villa General Belgrano</option>
+              <option [ngValue]=1>Carlos Paz</option>
+              <option [ngValue]=2>Córdoba</option>
             </select>
 
             <div class="text-danger" *ngIf="(form['ciudadComercio'].touched || submitted) && form['ciudadComercio'].errors?.['required']">
@@ -106,18 +111,18 @@
         </div>
 
         <!--Mapa interactivo-->
-        <div class="row form-group my-3" *ngIf="ciudadComercio">
+        <!--<div class="row form-group my-3" *ngIf="ciudadComercio">
           <google-map height="400px" width="100%" [center]="posicion" [zoom]="zoom" (mapClick)="agregarMarcador($event)">
             <map-marker *ngIf="agregoMarcador"
               [position]="posicionMarcador"
               [options]="opcionesMarcador">
             </map-marker>
           </google-map>
-        </div>
+        </div>-->
 
         <div class="row form-group my-3">
           <label class="col-form-label col-sm-auto" for="referenciaComercio">
-            Referencia (Opcional)
+            Referencia de busqueda
           </label>
 
           <div class="col-sm-3">
@@ -127,7 +132,7 @@
           <div class="text-danger" *ngIf="
           form['referenciaComercio'].errors?.['minlength'] ||
           form['referenciaComercio'].errors?.['maxlength'] ">
-            Dato texto, 3 a 50 caracteres.
+            Se requieren de 3 a 240 caracteres.
           </div>
         </div>
 
@@ -138,7 +143,7 @@
         <!--Campos Calle nombre y altura de domicilio-->
         <div class="row form-group my-3">
           <label class="col-form-label col-sm-1" for="calleNombreDomicilio">
-            Calle <span class="text-danger">*</span>
+            Calle y Número <span class="text-danger">*</span>
           </label>
 
           <div class="col-sm-3">
@@ -149,69 +154,10 @@
             </div>
 
             <div class="text-danger" *ngIf="form['calleNombreDomicilio'].errors?.['minlength'] ||form['calleNombreDomicilio'].errors?.['maxlength'] ">
-              Dato texto, 3 a 50 caracteres.
+              Se requieren de 3 a 240 caracteres.
             </div>
           </div>
 
-          <label class="col-form-label col-sm-auto" for="calleNumeroDomicilio">
-            Altura <span class="text-danger">*</span>
-          </label>
-
-          <div class="col-sm-3">
-            <input id="calleNumeroDomicilio" type="number" name="calleNumeroDomicilio"
-              class="form-control" formControlName="calleNumeroDomicilio"
-              [ngClass]="{'is-invalid': (form['calleNumeroDomicilio'].touched || submitted) && form['calleNumeroDomicilio'].errors}"/>
-            <div class="text-danger" *ngIf="(form['calleNumeroDomicilio'].touched || submitted) && form['calleNumeroDomicilio'].errors?.['required']">
-              Dato requerido.
-            </div>
-
-            <div class="text-danger" *ngIf="form['calleNumeroDomicilio'].errors?.['pattern']">
-              Dato numérico, 1 a 5 dígitos.
-            </div>
-          </div>
-        </div>
-
-        <div class="row form-group my-3">
-          <label>
-            <input type="checkbox" id="esDepto" formControlName="checkboxEsDepartamento">
-            Es un departamento
-          </label>
-        </div>
-
-        <div class="row form-group my-3" *ngIf="checkboxEsDepartamento">
-          <label class="col-form-label col-sm-1" for="pisoDepto">
-            Piso <span class="text-danger">*</span>
-          </label>
-
-          <div class="col-sm-3">
-            <input id="pisoDepto" type="text" name="pisoDepto" class="form-control" formControlName="pisoDepto" [ngClass]="{
-            'is-invalid': (form['pisoDepto'].touched || submitted) && form['pisoDepto'].errors}"/>
-
-            <div class="text-danger" *ngIf="(form['pisoDepto'].touched || submitted) && form['pisoDepto'].errors?.['required']">
-              Dato requerido.
-            </div>
-
-            <div class="text-danger" *ngIf="form['pisoDepto'].errors?.['pattern']">
-              Dato texto, 1 a 2 caracteres.
-            </div>
-          </div>
-
-          <label class="col-form-label col-sm-auto" for="letraDepto">
-            Letra
-          </label>
-
-          <div class="col-sm-3">
-            <input id="letraDepto" type="text" name="letraDepto" class="form-control" formControlName="letraDepto" [ngClass]="{
-            'is-invalid': (form['letraDepto'].touched || submitted) && form['letraDepto'].errors}"/>
-
-            <div class="text-danger" *ngIf="(form['letraDepto'].touched || submitted) && form['letraDepto'].errors?.['required']">
-              Dato requerido.
-            </div>
-
-            <div class="text-danger" *ngIf="form['letraDepto'].errors?.['pattern']">
-              Dato alfabético, 1 dígito.
-            </div>
-          </div>
         </div>
 
         <!--Campos Ciudad domicilio-->
@@ -224,9 +170,8 @@
             <select id="ciudadDomicilio" name="ciudadDomicilio" class="form-select" formControlName="ciudadDomicilio" [ngClass]="{'is-invalid': (form['ciudadDomicilio'].touched || submitted)
             && form['ciudadDomicilio'].errors}">
               <option [ngValue]="null" selected>Seleccione una ciudad...</option>
-              <option [ngValue]="1">Córdoba</option>
-              <option [ngValue]="2">San Francisco</option>
-              <option [ngValue]="3">Villa General Belgrano</option>
+              <option [ngValue]="1">Carlos paz </option>
+              <option [ngValue]="2">Córdoba</option>
             </select>
             <div class="text-danger" *ngIf="(form['ciudadDomicilio'].touched || submitted) && form['ciudadDomicilio'].errors?.['required']">
               Dato requerido.
@@ -236,7 +181,7 @@
 
         <div class="row form-group my-5">
           <label class="col-form-label col-sm-auto" for="referenciaDomicilio">
-            Referencia (Opcional)
+            Referencia de entrega
           </label>
 
           <div class="col-sm-3">
@@ -246,7 +191,7 @@
           <div class="text-danger" *ngIf="
           form['referenciaDomicilio'].errors?.['minlength'] ||
           form['referenciaDomicilio'].errors?.['maxlength'] ">
-            Dato texto, 3 a 50 caracteres.
+           Se requieren de 3 a 240 caracteres.
           </div>
         </div>
 
@@ -266,7 +211,7 @@
             <select [value]="" id="momentoEntrega" name="momentoEntrega" class="form-select" formControlName="momentoEntrega"
               [ngClass]="{'is-invalid': (form['momentoEntrega'].touched || submitted) && form['momentoEntrega'].errors}">
               <option [ngValue]="null" selected>Seleccione el momento de entrega...</option>
-              <option [ngValue]="'programar'">Programar ahora</option>
+              <option [ngValue]="'programar'">Programar entrega</option>
               <option [ngValue]="'cuanto-antes'">Lo antes posible</option>
             </select>
             <div class="text-danger" *ngIf="(form['momentoEntrega'].touched || submitted) && form['momentoEntrega'].errors?.['required']">
@@ -292,7 +237,7 @@
             </div>
 
             <div class="text-danger col-sm-auto" *ngIf="form['fechaEntrega'].errors?.['moreThanToday']">
-              La fecha debe ser igual o posterior a hoy.
+              La fecha debe ser igual o hasta 7 dias despues de la actual.
             </div>
 
           </div>
@@ -316,7 +261,7 @@
 
             <div class="text-danger col-sm-auto"
               *ngIf="(form['horaEntrega'].touched || submitted) && !esEnHoraEntrega(form['horaEntrega'].value)">
-              El horario de entregas es de 08:00 a 00:00
+              El horario de entregas es de 07:00 a 00:00
             </div>
           </div>
         </div>
@@ -355,7 +300,7 @@
               formControlName="formaPago" [ngClass]="{'is-invalid': (form['formaPago'].touched || submitted)
               && form['formaPago'].errors}">
               <option [ngValue]="null" selected>Seleccione una forma de pago...</option>
-              <option [ngValue]="'tarjeta'">Tarjeta de Crédito MasterCard</option>
+              <option [ngValue]="'tarjeta'">Tarjeta de Crédito VISA</option>
               <option [ngValue]="'efectivo'">Efectivo</option>
             </select>
 
@@ -409,7 +354,7 @@
               </div>
 
               <div class="text-danger" *ngIf="form['nroTarjeta'].errors?.['pattern']">
-                No es una tarjeta de crédito Master Card válida.
+                No es una tarjeta de crédito VISA válida.
               </div>
             </div>
 
@@ -428,7 +373,7 @@
 
               <div class="text-danger"
                 *ngIf="form['titularTarjeta'].errors?.['minlength'] || form['titularTarjeta'].errors?.['maxlength']">
-                Dato texto, 4 a 50 caracteres.
+                Dato texto, 4 a 240 caracteres.
               </div>
             </div>
 
@@ -450,7 +395,7 @@
               </div>
 
               <div class="text-danger" *ngIf="form['fechaVencimientoTarjeta'].errors?.['pattern']">
-                Ingrese una fecha de vencimiento correcta.
+                Ingrese una fecha de vencimiento valida.
               </div>
             </div>
 
@@ -486,9 +431,6 @@
       </button>&nbsp;
     </div>
 
-    <!--Alerta de Revisar los datos ingresados...-->
-    <div id="divMsjFormRegistro" class="row alert alert-danger" *ngIf="formPedido.invalid && submitted">
-      <i class="fa fa-exclamation-sign"></i>Revisar los datos ingresados
-    </div>
+    
   </form>
 </div>
