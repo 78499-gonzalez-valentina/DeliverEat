@@ -27,6 +27,9 @@ export class PedidoLoQueSeaComponent implements OnInit {
 
   totalAPagar: number;
 
+  selectedDate: string;
+  maxDate: string;
+
   constructor(private formBuilder: FormBuilder) { }
 
   ngOnInit() {
@@ -266,9 +269,16 @@ export class PedidoLoQueSeaComponent implements OnInit {
     }
   }
   
-  
-  
-  
+  calculateMaxDate(): string {
+    const currentDate = new Date();
+    currentDate.setDate(currentDate.getDate() + 6); // Sumar 7 días a la fecha actual
+    return currentDate.toISOString().split('T')[0]; // Formato yyyy-mm-dd
+  }
+  isDateValid(): boolean {
+    const selectedDateObj = new Date(this.selectedDate);
+    const maxDateObj = new Date(this.maxDate);
+    return selectedDateObj <= maxDateObj;
+  }
   
 }
 

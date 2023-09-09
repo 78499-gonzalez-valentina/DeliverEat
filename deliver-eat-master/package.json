@@ -19,6 +19,7 @@
     "@angular/platform-browser": "^14.0.0",
     "@angular/platform-browser-dynamic": "^14.0.0",
     "@angular/router": "^14.0.0",
+    "autonumeric": "^4.10.0",
     "bootstrap": "^5.2.0",
     "moment": "^2.29.4",
     "momento": "^0.2.0",

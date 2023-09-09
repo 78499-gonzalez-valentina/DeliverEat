@@ -225,18 +225,18 @@
           </label>
 
           <div class="col-sm-2" >
-            <input id="fechaEntrega" type="date" name="fechaEntrega" class="form-control" formControlName="fechaEntrega"
+            <input id="fechaEntrega" type="date" name="fechaEntrega" class="form-control" formControlName="fechaEntrega" [(ngModel)]="selectedDate" required [max]="calculateMaxDate()"
               [ngClass]="{'is-invalid': (form['fechaEntrega'].touched || submitted) && form['fechaEntrega'].errors}"/>
 
             <div class="text-danger" *ngIf="(form['fechaEntrega'].touched || submitted) && form['fechaEntrega'].errors?.['required']">
               Dato requerido.
             </div>
 
-            <div class="text-danger col-sm-auto" *ngIf="form['fechaEntrega'].errors?.['moreThanToday']">
-              La fecha debe ser igual o hasta 7 dias despues de la actual.
+            <div *ngIf="!isDateValid() && form['fechaEntrega'].errors?.['moreThanToday']" class="error-message">
+              La fecha debe ser actual o posterior
             </div>
 
-          </div>
+          </div> 
 
           <label class="col-form-label col-sm-auto" for="horaEntrega">
            Hora <span class="text-danger">*</span>
