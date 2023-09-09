@@ -36,7 +36,7 @@
           </label>
 
           <div class="col-sm-3">
-            <input id="precioPedido" type="number" class="form-control" formControlName="precioPedido"
+            <input id="precioPedido" type="number" class="form-control"  formControlName="precioPedido"
               [ngClass]="{'is-invalid': (form['precioPedido'].touched || submitted) && form['precioPedido'].errors}"/>
 
             <div class="text-danger" *ngIf="(form['precioPedido'].touched || submitted) && form['precioPedido'].errors?.['required']">

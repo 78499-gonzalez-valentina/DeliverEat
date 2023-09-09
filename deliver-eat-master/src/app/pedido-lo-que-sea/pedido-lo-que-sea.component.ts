@@ -84,10 +84,10 @@ export class PedidoLoQueSeaComponent implements OnInit {
       precioPedido: [null, [Validators.required,Validators.pattern("[0-9]*"),Validators.maxLength(240)]],
       imagen: [null],
       calleNombreComercio: [null, [Validators.required, Validators.minLength(3), Validators.maxLength(240)]],
-      ciudadComercio: [null, [Validators.required, Validators.pattern(/^(Cordoba|Carlos Paz)$/)]],
+      ciudadComercio: [null, [Validators.required, Validators.pattern(/^(Cordoba|Carlos Paz|cordoba|carlos paz)$/)]],
       referenciaComercio: [null, [Validators.minLength(3), Validators.maxLength(240)]],
       calleNombreDomicilio: [null, [Validators.required, Validators.minLength(3), Validators.maxLength(240)]],
-      ciudadDomicilio: [null ,[Validators.required, Validators.pattern(/^(Cordoba|Carlos Paz)$/)]],
+      ciudadDomicilio: [null ,[Validators.required, Validators.pattern(/^(Cordoba|Carlos Paz|cordoba|carlos paz)$/)]],
       referenciaDomicilio: [null, [Validators.minLength(3), Validators.maxLength(240)]],
       momentoEntrega: [null, Validators.required],
       fechaEntrega: [null, [
@@ -193,7 +193,7 @@ export class PedidoLoQueSeaComponent implements OnInit {
       // Todas las validaciones son correctas, muestra un mensaje de éxito
       Swal.fire("Su pedido fue realizado con exito", "", "success");
       this.submitted = false;
-      this.formPedido.reset({ ciudadComercio: 1 });
+      this.formPedido.reset({ ciudadComercio: null });
       this.formPedido.markAsUntouched();
       this.urlImagen = '';
     } else {
@@ -222,7 +222,7 @@ export class PedidoLoQueSeaComponent implements OnInit {
 
 
     this.form['montoAAbonar'].setValidators([
-      Validators.min(this.totalAPagar),
+      Validators.min(this.totalAPagar-1),
       Validators.max(999999),
       ConditionalValidator.conditionalValidator(() => this.formaPago === 'efectivo', Validators.required)]);
 
@@ -265,6 +265,9 @@ export class PedidoLoQueSeaComponent implements OnInit {
       return { invalidCiudad: true }; // La validación falló, retorna un error
     }
   }
+  
+  
+  
   
   
 }
